@@ -32,7 +32,8 @@ jobs:
            go get fyne.io/fyne/app &&
            go get fyne.io/fyne/container &&
            go get fyne.io/fyne/widget &&
-           fyne package -os android -appID com.oashalal.app
+           export GOBIN=$HOME/bin &&
+           $GOBIN/fyne package -os android -appID com.oashalal.app
 
     - name: Upload built apk file
       uses: actions/upload-artifact@v3
