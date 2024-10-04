@@ -28,11 +28,11 @@ jobs:
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }} 
     - name: Build
-      run: go get fyne.io/fyne/v2@latest &&
+      run: export GOBIN=$HOME/bin &&
+           go get fyne.io/fyne/v2@latest &&
            go get fyne.io/fyne/app &&
            go get fyne.io/fyne/container &&
-           go get fyne.io/fyne/widget &&
-           export GOBIN=$HOME/bin &&
+           go get fyne.io/fyne/widget &&      
            $GOBIN/fyne package -os android -appID com.oashalal.app
 
     - name: Upload built apk file
