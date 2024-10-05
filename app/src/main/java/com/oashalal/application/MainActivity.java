@@ -11,8 +11,8 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
-    private TextView label;
-    private int num;
+    public TextView label;
+    public int num;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,14 +28,19 @@ public class MainActivity extends AppCompatActivity {
         Button button = findViewById(R.id.button);
 
         label.setText("0");
-        label.setTextSize(20);
+        label.setTextSize(25);
         num = 0;
 
         button.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View arg0) {
-                label.setText(num++);
+                num += 1;
+                try {
+                    label.setText(Integer.toString(num));
+                } catch (Exception ec) {
+                    label.setText("error");
+                }
             }            
         });
         button.setText("add 1");
