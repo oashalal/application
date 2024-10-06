@@ -14,7 +14,7 @@ public class ScheduleService {
     
     private static List<String[]> list;
 
-    {
+    private static void init() {
         list = new ArrayList<String[]>();
         list.add(new String[] {
             "разг. о важном",
@@ -71,6 +71,7 @@ public class ScheduleService {
     }
 
     public static String[] getSchedule(int day) {
+        if (list == null) init();
         try {
             return list.get(day);
         } catch (Exception ec) {

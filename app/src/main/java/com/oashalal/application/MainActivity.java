@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         label = findViewById(R.id.label);
         title = findViewById(R.id.title);
 
-        label.setTextSize(17);
+        label.setTextSize(20);
         title.setTextSize(25);
 
         Button nextButton = findViewById(R.id.button_next);
