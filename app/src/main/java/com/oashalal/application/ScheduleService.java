@@ -73,9 +73,9 @@ public class ScheduleService {
     public static String[] getSchedule(int day) {
         if (list == null) init();
         try {
-            return list.get(day);
+            return list.get(day - 1);
         } catch (Exception ec) {
-            return new String[0];
+            return new String[] {"Ничего"};
         }
     }
 

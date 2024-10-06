@@ -31,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         label = findViewById(R.id.label);
         title = findViewById(R.id.title);
 
-        label.setTextSize(20);
-        title.setTextSize(25);
+        label.setTextSize(34);
+        title.setTextSize(52);
 
         Button nextButton = findViewById(R.id.button_next);
         Button backButton = findViewById(R.id.button_back);
@@ -86,8 +86,8 @@ public class MainActivity extends AppCompatActivity {
         String titleString = ScheduleService.getDayName(currentDay);
         
         StringBuilder builder = new StringBuilder();
-        for (String string : schedule) {
-            builder.append(string + "\n"); 
+        for (int i = 0; i < schedule.length; i++) {
+            builder.append(Integer.toString(i+1) + ". " + schedule[i] + "\n"); 
         }
         title.setText(titleString);
         label.setText(builder.toString());
