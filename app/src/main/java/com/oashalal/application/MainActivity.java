@@ -2,7 +2,11 @@ package com.oashalal.application;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 
 import com.oashalal.application.databinding.ActivityMainBinding;
 
@@ -10,11 +14,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
-    
+
     private ActivityMainBinding binding;
-    
+
     public TextView label;
     public TextView title;
+    public TextView timer;
 
     public int currentDay;
 
@@ -30,13 +35,15 @@ public class MainActivity extends AppCompatActivity {
 
         label = findViewById(R.id.label);
         title = findViewById(R.id.title);
+        timer = findViewById(R.id.timer);
 
         label.setTextSize(34);
         title.setTextSize(52);
+        timer.setTextSize(23);
 
         Button nextButton = findViewById(R.id.button_next);
         Button backButton = findViewById(R.id.button_back);
-        
+
         nextButton.setText(">");
         backButton.setText("<");
 
@@ -49,11 +56,11 @@ public class MainActivity extends AppCompatActivity {
                     updateSchedule();
                     return;
                 }
-                currentDay += 1;  
+                currentDay += 1;
                 updateSchedule();
-            }                   
+            }
         });
-        
+
         backButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -63,13 +70,27 @@ public class MainActivity extends AppCompatActivity {
                     updateSchedule();
                     return;
                 }
-                currentDay -= 1;  
+                currentDay -= 1;
                 updateSchedule();
-            }                   
+            }
         });
         initSchedule();
+
+        final Handler handler = new Handler();
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                // Обновление View, например, TextView с текущим временем
+                updateTimer();
+                // Запуск runnable через 1 секунду
+                handler.postDelayed(this, 1000);
+            }
+        };
+
+        // Запуск runnable
+        handler.postDelayed(runnable, 1000);
     }
-    
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -78,18 +99,27 @@ public class MainActivity extends AppCompatActivity {
 
     private void initSchedule() {
         currentDay = ScheduleService.getDay();
-        updateSchedule(); 
+        updateSchedule();
     }
 
     public void updateSchedule() {
         String[] schedule = ScheduleService.getSchedule(currentDay);
         String titleString = ScheduleService.getDayName(currentDay);
-        
+
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < schedule.length; i++) {
-            builder.append(Integer.toString(i+1) + ". " + schedule[i] + "\n"); 
+            builder.append(Integer.toString(i + 1) + ". " + schedule[i] + "\n");
         }
         title.setText(titleString);
         label.setText(builder.toString());
+    }
+
+    public void updateTimer() {
+        Lesson lesson = LessonService.getCurrentLesson();
+        if (lesson == null)
+            return;
+        int minutes = (int) lesson.end.until(LocalTime.now(), ChronoUnit.MINUTES);
+        int seconds = (int) lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS);
+        timer.setText(String.format("%d урок закончится через %d:%d", lesson.index, minutes, seconds));
     }
 }
