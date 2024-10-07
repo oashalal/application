@@ -124,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
             timerInfo.setText("Сейчас не идёт урок");
             return;
         }
-        int minutes = Math.abs((int) lesson.end.until(LocalTime.now(), ChronoUnit.MINUTES));
-        int seconds = Math.abs((int) (lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS) % minutes));
-        timer.setText(String.format("%d:%d", minutes, seconds));
+        int seconds = Math.abs((int) (lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS)));
+        int minutes = seconds / 60; 
+        timer.setText(String.format("%d:%d", minutes, seconds % 60));
         timerInfo.setText(String.format("До конца %d урока", lesson.index));
     }
 }
