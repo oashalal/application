@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     public TextView label;
     public TextView title;
     public TextView timer;
+    public TextView timerInfo;
 
     public int currentDay;
 
@@ -36,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
         label = findViewById(R.id.label);
         title = findViewById(R.id.title);
         timer = findViewById(R.id.timer);
+        timerInfo = findViewById(R.id.timer_info);
 
         label.setTextSize(34);
         title.setTextSize(52);
-        timer.setTextSize(23);
+        timer.setTextSize(45);
+        timerInfo.setTextSize(21);
 
         Button nextButton = findViewById(R.id.button_next);
         Button backButton = findViewById(R.id.button_back);
@@ -116,10 +119,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void updateTimer() {
         Lesson lesson = LessonService.getCurrentLesson();
-        if (lesson == null)
+        if (lesson == null) {
+            timer.setText("00:00");
+            timerInfo.setText("Сейчас не идёт урок");
             return;
-        int minutes = (int) lesson.end.until(LocalTime.now(), ChronoUnit.MINUTES);
-        int seconds = (int) lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS);
-        timer.setText(String.format("%d урок закончится через %d:%d", lesson.index, minutes, seconds));
+        }
+        int minutes = Math.abs((int) lesson.end.until(LocalTime.now(), ChronoUnit.MINUTES));
+        int seconds = Math.abs((int) (lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS) % minutes));
+        timer.setText(String.format("%d:%d", minutes, seconds));
+        timerInfo.setText(String.format("До конца %d урока", lesson.index));
     }
 }

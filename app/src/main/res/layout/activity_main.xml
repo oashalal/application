@@ -41,7 +41,18 @@
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id+/timer_info"
+        app:layout_constraintTop_toBottomOf="@id/label"
+        android:gravity="center"/>
+
+    <TextView 
+        android:id="@+id/timer_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@id/button_next"
-        app:layout_constraintTop_toBottomOf="@id/label"/>
+        app:layout_constraintTop_toBottomOf="@id/timer"
+        android:gravity="center"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
