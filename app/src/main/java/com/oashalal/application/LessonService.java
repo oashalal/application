@@ -31,4 +31,20 @@ public class LessonService {
         }
         return null;
     }
+
+    public static Lesson getNextLesson() {
+        LocalTime now = LocalTime.now();
+
+        if (now.isAfter(lessons.get(6).end) && now.isBefore(lessons.get(0).start)) {
+            return lessons.get(0);
+        }
+
+        for (int i = 1; i < lessons.size(); i++) {
+            Lesson lesson = lessons.get(i);
+            if (now.isBefore(lesson.start) && now.isAfter(lessons.get(i - 1).end)) {
+                return lesson;
+            }
+        }
+        return null;
+    }
 }

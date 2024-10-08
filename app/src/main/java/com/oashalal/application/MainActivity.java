@@ -120,12 +120,17 @@ public class MainActivity extends AppCompatActivity {
     public void updateTimer() {
         Lesson lesson = LessonService.getCurrentLesson();
         if (lesson == null) {
-            timer.setText("00:00");
-            timerInfo.setText("Сейчас не идёт урок");
+            if ((lesson = LessonService.getNextLesson()) != null) {
+                int seconds = Math.abs((int) (lesson.start.until(LocalTime.now(), ChronoUnit.SECONDS)));
+                int minutes = seconds / 60;
+                timer.setText(String.format("%d:%d", minutes, seconds % 60));
+                timerInfo.setText(String.format("До начала %d урока", lesson.index));
+
+            }
             return;
         }
         int seconds = Math.abs((int) (lesson.end.until(LocalTime.now(), ChronoUnit.SECONDS)));
-        int minutes = seconds / 60; 
+        int minutes = seconds / 60;
         timer.setText(String.format("%d:%d", minutes, seconds % 60));
         timerInfo.setText(String.format("До конца %d урока", lesson.index));
     }
