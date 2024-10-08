@@ -35,7 +35,7 @@ public class LessonService {
     public static Lesson getNextLesson() {
         LocalTime now = LocalTime.now();
 
-        if (now.isAfter(lessons.get(6).end) && now.isBefore(lessons.get(0).start)) {
+        if (now.isAfter(lessons.get(6).end) || now.isBefore(lessons.get(0).start)) {
             return lessons.get(0);
         }
 
